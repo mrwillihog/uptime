@@ -1,3 +1,7 @@
+body {
+  margin-bottom: 8em;
+}
+
 h1, h2, h3 {
   font-weight: normal;
 }
@@ -6,9 +10,24 @@ h3 {
   font-size: 20px;
 }
 
+form .row {
+  margin-bottom: 16px;
+}
+
+.navbar-brand>img {
+  display: inline-block;
+  margin-top: -3px;
+}
+
 .footer {
-  padding: 35px 0 36px;
-  border-top: 1px solid #E5E5E5;
+  bottom: 0;
+  position: absolute;
+  width: 100%;
+  border-top: 1px solid #e7e7e7;
+  padding: 2em 0;
+  background-color: #f8f8f8;
+  text-align: center;
+  height: 6em;
 }
 
 #new_events a {
@@ -16,7 +35,7 @@ h3 {
 }
 
 #new_events a:hover {
-  color: white;
+  color: #333;
 }
 
 #check_summary li {
@@ -73,18 +92,15 @@ div.btn-toolbar {
 .uptimeBar {
   height:15px;
   position: relative;
-  background: #bfd255; /* Old browsers */
-  background: -moz-linear-gradient(top,  #bfd255 0%, #8eb92a 50%, #72aa00 51%, #9ecb2d 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#bfd255), color-stop(50%,#8eb92a), color-stop(51%,#72aa00), color-stop(100%,#9ecb2d)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top,  #bfd255 0%,#8eb92a 50%,#72aa00 51%,#9ecb2d 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top,  #bfd255 0%,#8eb92a 50%,#72aa00 51%,#9ecb2d 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(top,  #bfd255 0%,#8eb92a 50%,#72aa00 51%,#9ecb2d 100%); /* IE10+ */
-  background: linear-gradient(to bottom,  #bfd255 0%,#8eb92a 50%,#72aa00 51%,#9ecb2d 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bfd255', endColorstr='#9ecb2d',GradientType=0 ); /* IE6-9 */
+  background: #5cb85c; /* Old browsers */
 }
 .timeline .uptimeBar {
-  height: 22px;
+  height: 5px;
 }
+table .uptimeBar {
+  margin-top: 2px;
+}
+
 .uptimeBar div {
   position:absolute;
   height:inherit;
@@ -93,29 +109,15 @@ div.btn-toolbar {
 
 .uptimeBar .down {
   min-width: 1px;
-  background: #efc5ca; /* Old browsers */
-  background: -moz-linear-gradient(top,  #efc5ca 0%, #d24b5a 50%, #ba2737 51%, #f18e99 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#efc5ca), color-stop(50%,#d24b5a), color-stop(51%,#ba2737), color-stop(100%,#f18e99)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top,  #efc5ca 0%,#d24b5a 50%,#ba2737 51%,#f18e99 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top,  #efc5ca 0%,#d24b5a 50%,#ba2737 51%,#f18e99 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(top,  #efc5ca 0%,#d24b5a 50%,#ba2737 51%,#f18e99 100%); /* IE10+ */
-  background: linear-gradient(to bottom,  #efc5ca 0%,#d24b5a 50%,#ba2737 51%,#f18e99 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#efc5ca', endColorstr='#f18e99',GradientType=0 ); /* IE6-9 */
+  background: #d9534f; /* Old browsers */
 }
 
 .uptimeBar .down:hover {
-  background: #B94A48;
+  background: #c9302c;
 }
 
 .uptimeBar .pause {
-  background: #6db3f2; /* Old browsers */
-  background: -moz-linear-gradient(top,  #6db3f2 0%, #54a3ee 50%, #3690f0 51%, #1e69de 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#6db3f2), color-stop(50%,#54a3ee), color-stop(51%,#3690f0), color-stop(100%,#1e69de)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top,  #6db3f2 0%,#54a3ee 50%,#3690f0 51%,#1e69de 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top,  #6db3f2 0%,#54a3ee 50%,#3690f0 51%,#1e69de 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(top,  #6db3f2 0%,#54a3ee 50%,#3690f0 51%,#1e69de 100%); /* IE10+ */
-  background: linear-gradient(to bottom,  #6db3f2 0%,#54a3ee 50%,#3690f0 51%,#1e69de 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6db3f2', endColorstr='#1e69de',GradientType=0 ); /* IE6-9 */
+  background: #286090; /* Old browsers */
 }
 
 .uptimeBar .pause:hover {
@@ -123,23 +125,19 @@ div.btn-toolbar {
 }
 
 .green {
-  color: #468847;
+  color: #3c763d;
 }
 
 .orange {
-  color: #C27100;
+  color: #aa6708;
 }
 
 .red {
-  color: #B94A48;
+  color: #a94442;
 }
 
 .blue {
-  color: #3A87AD;
-}
-
-.week-end {
-  background-color: #eee;
+  color: #1b809e;
 }
 
 tfoot {
@@ -207,7 +205,7 @@ table.ping .error {
 }
 
 #sectionList section {
-  padding-top: 88px;
+  padding-top: 20px;
 }
 #sectionList .span10 {
   margin-top: -88px;
@@ -222,10 +220,11 @@ table.ping .error {
   top: 0;
   background-color: white;
   z-index: 50;
+  width: 1140px;
 }
 #secondaryNav.affix {
   top: 91px;
-  width: 140px;
+  width: 165px;
 }
 i.icon-chevron-right {
   float: right;
@@ -237,38 +236,37 @@ i.icon-chevron-right {
   text-align: center;
   margin: 5px;
 }
-#dateNavigation .title .btn-link {
-  padding: 0;
-  border: none;
-  vertical-align: inherit;
+#dateNavigation .title a {
+  cursor: pointer;
 }
 #dateNavigation .timeline {
   margin-left: 29px;
-  height: 22px;
+  height: 5px;
+  margin-bottom: 4px;
 }
-.btn-small.month, .btn-small.day, .btn-small.hour, .btn-small.quarter {
+.btn-sm.month, .btn-sm.day, .btn-sm.hour, .btn-sm.quarter {
   padding-right: 0;
   padding-left: 0;
 }
-.btn.btn-small.month {
+.btn.btn-sm.month {
   width: 61px;
 }
-.btn.btn-small.day.nb31 {
+.btn.btn-sm.day.nb31 {
   width: 24px;
 }
-.btn.btn-small.day.nb30 {
+.btn.btn-sm.day.nb30 {
   width: 25px;
 }
-.btn.btn-small.day.nb29 {
+.btn.btn-sm.day.nb29 {
   width: 26px;
 }
-.btn.btn-small.day.nb28 {
+.btn.btn-sm.day.nb28 {
   width: 27px;
 }
-.btn.btn-small.hour {
+.btn.btn-sm.hour {
   width: 31px;
 }
-.btn.btn-small.tenminutes {
+.btn.btn-sm.tenminutes {
   width: 120px;
 }
 ul.nav-tabs li span {

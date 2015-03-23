@@ -9,19 +9,19 @@ DateNavigation.prototype.init = function(type, check) {
   this.redraw();
   var interval = this.interval;
   interval.on('change-date', this.redraw.bind(this));
-  
+
   // change date on click
-  $('#dateNavigation').on('click', 'button', function(event) {
+  $('#dateNavigation').on('click', 'button,a', function(event) {
     var data = $(this).data();
     interval.update(data.type, parseInt(data.date));
   });
-  
+
   // redraw date range when time passes to enable new interval buttons
   setInterval(this.redrawPeriods.bind(this), 5 * 60 * 1000);
 
   // redraw uptime bar when the data arrives
   interval.on('refresh-stat', function() {
-    var outages = this.stat ? this.stat.outages || [] : [];
+    var outages = this.stat ? this.stat.outages ||  [] : [];
     var args = {
       from: interval.begin.valueOf(),
       to: interval.end.valueOf(),
@@ -38,7 +38,7 @@ DateNavigation.prototype.init = function(type, check) {
       uptimeBar(type, args)
     );
   });
-  
+
   // pin when scrolling
   $('#dateNavigation').affix({
     offset: $('#dateNavigation').position()
@@ -51,7 +51,12 @@ DateNavigation.prototype.init = function(type, check) {
   var self = this;
   interval.on('change-date', function() {
     if (!self.pushStateEnabled || !history.pushState) return;
-    history.pushState({ type: this.type, date: this.date, stat: this.stat, stats: this.stats }, null, '?type=' + this.type + '&date=' + this.date + location.hash);
+    history.pushState({
+      type: this.type,
+      date: this.date,
+      stat: this.stat,
+      stats: this.stats
+    }, null, '?type=' + this.type + '&date=' + this.date + location.hash);
   });
   window.addEventListener('popstate', function(e) {
     // Chrome fires popstate on load, we must ignore that
@@ -62,7 +67,10 @@ DateNavigation.prototype.init = function(type, check) {
     if (!params) {
       if (location.href == initialURL) {
         // reached back first page
-        params = { type: self.initialType, date: self.initialDate };
+        params = {
+          type: self.initialType,
+          date: self.initialDate
+        };
       } else {
         // just changed hash - ignoring
         return;
@@ -82,39 +90,45 @@ DateNavigation.prototype.redraw = function() {
 }
 DateNavigation.prototype.titleForPeriod = function(date, type) {
   switch (type) {
-    case 'month': return date.format('MMMM');
-    case 'day': return date.format('D');
-    case 'hour': return date.format('ha');
-    case 'tenminutes': 
+    case 'month':
+      return date.format('MMMM');
+    case 'day':
+      return date.format('D');
+    case 'hour':
+      return date.format('ha');
+    case 'tenminutes':
       return date.format('h:mma') + " to " + date.clone().add('minutes', 10).subtract('seconds', 1).format('h:mma');
   }
 }
 DateNavigation.prototype.tooltipForPeriod = function(date, type) {
   switch (type) {
-    case 'month': return date.format('MMMM YYYY');
-    case 'day': return date.format('dddd, LL');
-    case 'hour': 
+    case 'month':
+      return date.format('MMMM YYYY');
+    case 'day':
+      return date.format('dddd, LL');
+    case 'hour':
       return "from " + date.format('h:mma') + " to " + date.clone().endOf('hour').format('h:mma');
-    case 'tenminutes': return '';
+    case 'tenminutes':
+      return '';
   }
 }
 DateNavigation.prototype.redrawPeriods = function() {
-  var type  = this.interval.type;
+  var type = this.interval.type;
   var periods = '<div class="btn-group">';
   if (this.interval.beginsAfterOrigin()) {
-    periods += '<button class="btn btn-small" data-type="' + type + '" data-date="' + this.interval.getPreviousDate() + '">&lt;</button>';
+    periods += '<button class="btn btn-default btn-sm" data-type="' + type + '" data-date="' + this.interval.getPreviousDate() + '">&lt;</button>';
   } else {
-    periods += '<button class="btn btn-small" disabled="disabled">&lt;</button>';
+    periods += '<button class="btn btn-default btn-sm" disabled="disabled">&lt;</button>';
   }
   var begin = this.interval.begin;
-  var end   = this.interval.end;
+  var end = this.interval.end;
   var subtype = this.interval.subType(type);
   var d = begin.clone();
   while (d.valueOf() < end.valueOf()) {
     if (d.valueOf() < Date.now() && d.clone().endOf(subtype).valueOf() > this.interval.origin && !this.interval.isMaxZoom()) {
-      periods += '<button class="btn btn-small ' + subtype + ' nb' + end.date() + '" data-type="' + subtype + '" data-date="' + d.valueOf() + '" title="' + this.tooltipForPeriod(d, subtype) + '">' + this.titleForPeriod(d, subtype) + '</button>';
+      periods += '<button class="btn btn-default btn-sm ' + subtype + ' nb' + end.date() + '" data-type="' + subtype + '" data-date="' + d.valueOf() + '" title="' + this.tooltipForPeriod(d, subtype) + '">' + this.titleForPeriod(d, subtype) + '</button>';
     } else {
-      periods += '<button class="btn btn-small ' + subtype + ' nb' + end.date() + '" disabled="disabled">' + this.titleForPeriod(d, subtype) + '</button>';
+      periods += '<button class="btn btn-default btn-sm ' + subtype + ' nb' + end.date() + '" disabled="disabled">' + this.titleForPeriod(d, subtype) + '</button>';
     }
     if (subtype == 'tenminutes') {
       d.add('minutes', 10);
@@ -123,9 +137,9 @@ DateNavigation.prototype.redrawPeriods = function() {
     }
   }
   if (this.interval.endsBeforeNow()) {
-    periods += '<button class="btn btn-small" data-type="' + type + '" data-date="' + this.interval.getNextDate() + '">&gt;</button>';
+    periods += '<button class="btn btn-default btn-sm" data-type="' + type + '" data-date="' + this.interval.getNextDate() + '">&gt;</button>';
   } else {
-    periods += '<button class="btn btn-small" disabled="disabled">&gt;</button>';
+    periods += '<button class="btn btn-default btn-sm" disabled="disabled">&gt;</button>';
   }
   periods += '</div>';
   $('#dateNavigation .periods').html(periods);
@@ -139,21 +153,21 @@ DateNavigation.prototype.redrawTitle = function() {
       break;
     case 'month':
       title += momentForDate.format('MMMM');
-      title += ' <div class="btn-group"><button class="btn btn-link" data-type="year" data-date="' + this.interval.date + '">';
+      title += ' <a data-type="year" data-date="' + this.interval.date + '">';
       title += momentForDate.year();
-      title += '</button></div>';
+      title += '</a>';
       break;
     case 'day':
       title += momentForDate.format('dddd ');
-      title += '<div class="btn-group"><button class="btn btn-link" data-type="month" data-date="' + this.interval.date + '">';
+      title += '<a data-type="month" data-date="' + this.interval.date + '">';
       title += momentForDate.format('MMMM');
-      title += '</button></div> ';
+      title += '</a> ';
       title += momentForDate.format('Do, YYYY');
       break;
     case 'hour':
-      title += '<div class="btn-group"><button class="btn btn-link" data-type="day" data-date="' + this.interval.date + '">';
+      title += '<a data-type="day" data-date="' + this.interval.date + '">';
       title += momentForDate.format('dddd MMMM Do');
-      title += '</button></div>, ';
+      title += '</a>, ';
       title += momentForDate.clone().startOf('hour').format('ha') + ' to ' + momentForDate.clone().endOf('hour').format('h:mma');
   }
   $('#dateNavigation .title').html(title);
@@ -162,15 +176,15 @@ DateNavigation.prototype.redrawZoom = function() {
   var zoom = '';
   var subType = this.interval.subType(this.interval.type);
   if (subType !== false && !this.interval.isMaxZoom()) {
-    zoom += '<button class="btn btn-small" data-type="' + subType + '" data-date="' + this.interval.date + '"><li class="icon-zoom-in"></li></button>';
+    zoom += '<button class="btn btn-default btn-sm" data-type="' + subType + '" data-date="' + this.interval.date + '"><li class="glyphicon glyphicon-zoom-in"></li></button>';
   } else {
-    zoom += '<button class="btn btn-small" disabled="disabled"><i class="icon-zoom-in"></i></button>'
+    zoom += '<button class="btn btn-default btn-sm" disabled="disabled"><i class="glyphicon glyphicon-zoom-in"></i></button>'
   }
   var superType = this.interval.superType(this.interval.type);
   if (superType !== false) {
-    zoom += '<button class="btn btn-small" data-type="' + superType + '" data-date="' + this.interval.date + '"><li class="icon-zoom-out"></li></button>';
+    zoom += '<button class="btn btn-default btn-sm" data-type="' + superType + '" data-date="' + this.interval.date + '"><li class="glyphicon glyphicon-zoom-out"></li></button>';
   } else {
-    zoom += '<button class="btn btn-small" disabled="disabled"><i class="icon-zoom-out"></i></button>'
+    zoom += '<button class="btn btn-default btn-sm" disabled="disabled"><i class="glyphicon glyphicon-zoom-out"></i></button>'
   }
   $('#dateNavigation .zoom').html(zoom);
 }
